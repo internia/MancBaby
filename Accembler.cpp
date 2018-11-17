@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <csting>
 #include <vector>
@@ -11,6 +12,9 @@ using namespace std;
 
 int main() {
 	
+	cout << "Manchester Baby Assembler" << endl;
+	
+	//create new assembler
 	Assembler* ass = new Assembler();
 	
 	string rFileName; //read file name (assembler code file name)
@@ -19,25 +23,35 @@ int main() {
 	cout << "assembily code to machine code: ";
 	cout << "" << endl;
 	
-	cin >> rFileName;
-	
+	getline(cin, rFileName);
+		
 	string sFileName; //save file name (machine code output file name)
 	
 	cout << "Enter the name you want to give to the output machine code file :";
 	cout << "" << endl;
 	
-	cin >> sFileName;
+	getline(cin, sFileName);
 	
+	ass->loadFile();
 	
-	//read in text file
-	
-	//convert to machine code
+	delete ass;
 	
 }
 
 Assembler::Assembler(string fileName, string outputName){
+	
 	this->fileName = fileName;
 	this->outputName = outputName;
+}
+
+//Deconstructor
+Assembler::~Assembler(){
+	
+	fileName.clear();
+	lineNum = 0;
+	lineTotal = 0;
+	
+	
 }
 
 void Assembler::setOutputVSize(int size){
@@ -47,20 +61,49 @@ void Assembler::setOutputVSize(int size){
 }
 
 void Assembler::loadFile(){
+	
+	//input stream class to operate on files	
+	ifstream file;
+	string line;
+	
 	//read in file
+	file.open("MachineCode.txt");
+	
+	//while not at end of file, continue reading
+	while(!file.eof()){
+		
+		//extracts characters from stream and stores in c string, 'line' defines the maximum num of characters to write to 'input'
+		getline(input, line);
+		
+		//store countLine as line
+		store.at(countLine) = line;
+		
+		//postfix increment
+		countLine++;
+		
+	}
+	
 	//store the first line of the file to be decoded here
 	
-	//writeToOutput(decodeLine(line))
+	writeToOutput(decodeLine(line))
 }
 
 string Assembler::decodeLine(int lineNum, string line){
 	
+	char line1 = 0;
+	
 	//remove all white space
-	//line.erase(remove(line.begin(),line.end(),' '),line.end());
 	
 	for(string::iterator it = str.begin(); it != str.end(); ++it) {
 		if(*it != ';'){ //if not a comment
 			
+			//remove all white space
+			line.erase(remove(line.begin(),line.end(),' '),line.end());
+
+			for(int i; i < line.length(); i++){
+				char curr = line[i];
+				if(curr == ':'){
+					string temp;
 			
 		}else{ //if you have reached a comment, ignore the rest on that line
 			break;
@@ -93,9 +136,11 @@ string Assembler::convertOpCode(string opCode){
 	}
 	if (opCode == "STP"){
 		return "111";
-	}
+	}else{
 	
 	return "label"; //returns label if not in instruction set
+		
+	}
 }
 
 
