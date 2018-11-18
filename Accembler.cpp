@@ -34,10 +34,18 @@ int main() {
 	//convert to machine code
 	
 }
-
+//initialise all assembler variables
 Assembler::Assembler(string fileName, string outputName){
 	this->fileName = fileName;
 	this->outputName = outputName;
+	lineNum = 0;
+	lineTotal = 0;
+}
+
+//deconstructor
+Assembler::~Assembler(){
+	fileName.clear();
+
 }
 
 void Assembler::setOutputVSize(int size){
@@ -47,16 +55,35 @@ void Assembler::setOutputVSize(int size){
 }
 
 void Assembler::loadFile(){
-	//read in file
-	//store the first line of the file to be decoded here
 	
-	//writeToOutput(decodeLine(line))
+	string line;
+	
+	for int i = 0; i < 2; i++){
+		
+		ifstream source(fileName.c_str());
+		
+		if(file.is_open()){
+			
+			while(getline(file, line){
+				
+				decodeLine(line);
+			}
+		
+		file.close();
+		lineNum = 0;
+		}
+	 }
+	save();
 }
+			    
 
 string Assembler::decodeLine(int lineNum, string line){
 	
 	//remove all white space
 	//line.erase(remove(line.begin(),line.end(),' '),line.end());
+	
+	char start = line[0];
+	
 	
 	for(string::iterator it = str.begin(); it != str.end(); ++it) {
 		if(*it != ';'){ //if not a comment
@@ -69,6 +96,8 @@ string Assembler::decodeLine(int lineNum, string line){
 	
 
 }
+			      
+			      
 	
 string Assembler::convertOpCode(string opCode){
 	
@@ -98,6 +127,11 @@ string Assembler::convertOpCode(string opCode){
 	return "label"; //returns label if not in instruction set
 }
 
+void Assembler::save(){
+	
+	string output = "MachineCode.txt";
+	ofstream source(output.c_str())
+}
 
 
 int Assembler::decToBin(int n){
