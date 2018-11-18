@@ -10,6 +10,9 @@ class Assembler{
 	private:
 	string fileName;
 	string outputName;
+	int lineNum;
+	int lineTotal;
+	
 	
 	vector<vector<string>> symbolTable;
 	vector<vector<string>> convertedCode;
@@ -33,7 +36,7 @@ class Assembler{
 	void loadFile();
 	void decodeLine();
 	string convertOpCode();
-	void writeToOutput();
+	void save();
 	
 	string decToBin(int decimal);
 };
